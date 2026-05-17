@@ -1,0 +1,17 @@
+﻿version: '3.8'
+
+services:
+  web-app:
+    container_name: my_net10_app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "5242:5242"  # Связываем порт Windows (левый) с портом в контейнере (правый)
+    volumes:
+      - sqlite-data:/app/data  # Создаем постоянное хранилище для базы данных
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+volumes:
+  sqlite-data:  # Объявляем том, чтобы данные SQLite не пропадали при перезапуске

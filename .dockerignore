@@ -1,0 +1,8 @@
+﻿bin/
+obj/
+*.db
+*.sqlite
+.backend
+.vs/
+.vscode/
+.idea/

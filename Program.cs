@@ -8,7 +8,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddControllersWithViews();
 builder.Services
     .AddDbContext<ToDoContext>(options => options
-        .UseSqlite("Data Source=todo.db"));
+        .UseSqlite("Data Source=data/todo.db"));
 
 var app = builder.Build();
 
@@ -29,5 +29,11 @@ app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}")
     .WithStaticAssets();
+
+using (var scope = app.Services.CreateScope())
+{
+    var db = scope.ServiceProvider.GetRequiredService<ToDoContext>();
+    db.Database.Migrate(); // Автоматически создаст базу и накатит миграции при запуске
+}
 
 app.Run();
